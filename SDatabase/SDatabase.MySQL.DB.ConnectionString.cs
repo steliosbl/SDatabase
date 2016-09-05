@@ -112,11 +112,11 @@
 
             try
             {
-                int port = Convert.ToInt32(connectionData["Port"]);
+                int port = System.Convert.ToInt32(connectionData["Port"]);
                 if (port > 0 || port < 65535)
                 {
                     this.Server = connectionData["Server"];
-                    this.Port = Convert.ToInt32(connectionData["Port"]);
+                    this.Port = System.Convert.ToInt32(connectionData["Port"]);
                     this.Database = connectionData["Database"];
                     this.Uid = connectionData["Uid"];
                     this.Pwd = connectionData["Pwd"];
