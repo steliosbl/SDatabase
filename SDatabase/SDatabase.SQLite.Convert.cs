@@ -83,7 +83,7 @@ namespace SDatabase.SQLite
                     {
                         foreach (var column in columns)
                         {
-                            if (column == param.Name)
+                            if (column.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase))
                             {
                                 passParams.Add(reader[column]);
                             }
