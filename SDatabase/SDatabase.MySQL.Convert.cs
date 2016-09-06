@@ -72,6 +72,10 @@ namespace SDatabase.MySQL
                     var types = Enumerable.Range(0, reader.FieldCount).Select(reader.GetFieldType).ToArray();
 
                     var constructor = typeof(T).GetConstructor(types);
+                    if (constructor == null)
+                    {
+                        throw new ArgumentException("Type does not have a matching constructor!", "constructor");
+                    }
 
                     var passParams = new List<object>();
 
