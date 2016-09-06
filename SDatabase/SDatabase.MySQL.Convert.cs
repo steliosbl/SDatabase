@@ -111,6 +111,12 @@ namespace SDatabase.MySQL
         /// <param name="table">The name of the table to write the data to.</param>
         public static void SerializeObject(MySqlConnection conn, object obj, string table)
         {
+            // User error checks:
+            if (string.IsNullOrWhiteSpace(table) || table == string.Empty)
+            {
+                throw new ArgumentException("Valid table name required!", "table");
+            }
+
             string cmdstr = "INSERT INTO " + table + " VALUES (";
             var properties = obj.GetType().GetProperties();
             foreach (var property in properties)
