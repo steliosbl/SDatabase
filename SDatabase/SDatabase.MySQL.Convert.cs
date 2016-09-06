@@ -11,7 +11,7 @@
     {
         public static T DeserializeObject<T>(MySqlCommand cmd)
         { 
-            using (MySqlDataReader reader = cmd.ExecuteReader())
+            using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
@@ -38,6 +38,32 @@
                 }
             }
             return (T)Activator.CreateInstance(typeof(T));
+        }
+
+        public static void SerializeObject(MySqlConnection conn, object obj)
+        {
+            SerializeObject(conn, obj, obj.GetType().Name);
+        }
+
+        public static void SerializeObject(MySqlConnection conn, object obj, string table)
+        {
+            string cmdstr = "INSERT INTO " + table + " VALUES (";
+            var properties = obj.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                cmdstr += "@" + property.Name + ",";
+            }
+            cmdstr = cmdstr.Remove(cmdstr.Length - 1);
+            cmdstr += ");";
+            using (var cmd = new MySqlCommand(cmdstr, conn))
+            {
+                cmd.Prepare();
+                foreach (var property in properties)
+                {
+                    cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(obj));
+                }
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
