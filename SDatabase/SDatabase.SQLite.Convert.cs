@@ -1,6 +1,6 @@
 ﻿#region Copyright
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SDatabase.Generic.Convert.cs">
+// <copyright file="SDatabase.SQLite.Convert.cs">
 //
 // Copyright (C) 2016 Stelio Logothetis
 //

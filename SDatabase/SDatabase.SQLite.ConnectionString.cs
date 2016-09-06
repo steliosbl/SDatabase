@@ -1,10 +1,47 @@
-﻿namespace SDatabase.SQLite
+﻿#region Copyright
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SDatabase.SQLite.ConnectionString.cs">
+//
+// Copyright (C) 2016 Stelio Logothetis
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the +terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see http://www.gnu.org/licenses/. 
+// </copyright>
+// <summary>
+// SDatabase database interface library for C#.
+// Email: stel.logothetis@gmail.com
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+#endregion
+
+/// <summary>
+/// Contains classes and methods pertaining to SQLite databases.
+/// </summary>
+namespace SDatabase.SQLite
 {
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// SQLite connection string class.
+    /// </summary>
     public class ConnectionString
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionString"/> class. 
+        /// </summary>
+        /// <param name="dataSource">The database's data source (i.e. filename).</param>
+        /// <param name="version">The version of SQLite to be used (latest is 3).</param>
         public ConnectionString(string dataSource, int version)
         {
             this.DataSource = dataSource;
@@ -12,18 +49,34 @@
             this.Generate();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionString"/> class. 
+        /// </summary>
+        /// <param name="text">The connection string.</param>
         public ConnectionString(string text)
         {
             this.Text = text;
             this.Parse();
         }
 
+        /// <summary>
+        /// Gets database's data source.
+        /// </summary>
         public string DataSource { get; private set; }
 
+        /// <summary>
+        /// Gets the version of SQLite being used.
+        /// </summary>
         public int Version { get; private set; }
 
+        /// <summary>
+        /// Gets the connection string.
+        /// </summary>
         public string Text { get; private set; }
 
+        /// <summary>
+        /// Generates a valid connection string using the connection data provided.
+        /// </summary>
         private void Generate()
         {
             // User error checks:
@@ -31,7 +84,7 @@
             {
                 throw new ArgumentException("Data source required!", "DataSource");
             }
-            else if (this.Version <=0 || this.Version > 3)
+            else if (this.Version <= 0 || this.Version > 3)
             {
                 throw new ArgumentException("Valid version number required!", "Version");
             }
@@ -42,6 +95,9 @@
             this.Text = connectionString;
         }
 
+        /// <summary>
+        /// Parses the given connection string and extracts the connection data.
+        /// </summary>
         private void Parse()
         {
             string[] requiredElements = { "Data Source", "Version" };
