@@ -146,5 +146,25 @@ namespace SDatabase.MySQL
                 trans.Commit();
             }
         }
+
+        public static string CreateTableQuery(object obj, string table)
+        {
+            // User error checks:
+            if (string.IsNullOrWhiteSpace(table) || table == string.Empty)
+            {
+                throw new ArgumentException("Valid table name required!", "table");
+            }
+
+            string cmdstr = "CREATE TABLE " + table + " (";
+            var properties = obj.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                cmdstr += property.Name + " " + TypeLookup.GetMySQLType(property.PropertyType) + ", ";
+            }
+
+            cmdstr = cmdstr.Remove(cmdstr.Length - 2);
+            cmdstr += ");";
+            return cmdstr;
+        }
     }
 }
