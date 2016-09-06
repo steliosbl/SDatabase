@@ -1,50 +1,10 @@
-﻿#region Copyright
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SDatabase.MySQL.ConnectionString.cs">
-//
-// Copyright (C) 2016 Stelio Logothetis
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the +terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/. 
-// </copyright>
-// <summary>
-// SDatabase database interface library for C#.
-// Email: stel.logothetis@gmail.com
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-#endregion
-
-/// <summary>
-/// Contains classes and methods pertaining to MySQL databases.
-/// </summary>
-namespace SDatabase.MySQL
+﻿namespace SDatabase.MySQL
 {
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    /// MySQL connection string class.
-    /// </summary>
     public class ConnectionString
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectionString" /> class.
-        /// </summary>
-        /// <param name="server">The server's address.</param>
-        /// <param name="port">The server's port (usually 3306).</param>
-        /// <param name="database">The name of the target schema.</param>
-        /// <param name="uid">The username.</param>
-        /// <param name="pwd">The password.</param>
         public ConnectionString(string server, int port, string database, string uid, string pwd)
         {
             this.Server = server;
@@ -55,49 +15,24 @@ namespace SDatabase.MySQL
             this.Generate();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectionString" /> class.
-        /// </summary>
-        /// <param name="text">The connection string.</param>
         public ConnectionString(string text)
         {
             this.Text = text.Trim();
             this.Parse();
         }
 
-        /// <summary>
-        /// Gets the server's address.
-        /// </summary>
         public string Server { get; private set; }
 
-        /// <summary>
-        /// Gets the server's port (usually 3306).
-        /// </summary>
         public int Port { get; private set; }
 
-        /// <summary>
-        /// Gets the name of the target schema.
-        /// </summary>
         public string Database { get; private set; }
 
-        /// <summary>
-        /// Gets the username.
-        /// </summary>
         public string Uid { get; private set; }
 
-        /// <summary>
-        /// Gets the password.
-        /// </summary>
         public string Pwd { get; private set; }
 
-        /// <summary>
-        /// Gets the connection string.
-        /// </summary>
         public string Text { get; private set; }
 
-        /// <summary>
-        /// Generates a valid connection string using the connection data provided.
-        /// </summary>
         private void Generate()
         {
             // User error checks:
@@ -132,9 +67,6 @@ namespace SDatabase.MySQL
             this.Text = connectionString.Trim();
         }
 
-        /// <summary>
-        /// Parses the given connection string and extracts the connection data.
-        /// </summary>
         private void Parse()
         {
             string[] requiredElements = { "Server", "Port", "Database", "Uid", "Pwd" };
