@@ -128,8 +128,8 @@ namespace SDatabase.MySQL
             connectionString += "Port=" + this.Port.ToString() + "; ";
             connectionString += "Database=" + this.Database + "; ";
             connectionString += "Uid=" + this.Uid + "; ";
-            connectionString += "Pwd=" + this.Pwd + "; ";
-            this.Text = connectionString.Trim();
+            connectionString += "Pwd=" + this.Pwd + ";";
+            this.Text = connectionString;
         }
 
         /// <summary>
