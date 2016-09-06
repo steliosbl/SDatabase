@@ -147,6 +147,12 @@ namespace SDatabase.MySQL
             }
         }
 
+        /// <summary>
+        /// Generates a query that, when executed, creates a table with columns identical to the given object's attributes.
+        /// </summary>
+        /// <param name="obj">The object used as a template to generate the query.</param>
+        /// <param name="table">The name of the table to be created.</param>
+        /// <returns>Query that creates a table with columns identical to the given object's attributes.</returns>
         public static string CreateTableQuery(object obj, string table)
         {
             // User error checks:
