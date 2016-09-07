@@ -47,11 +47,17 @@ namespace SDatabase.MySQL
         /// <param name="pwd">The password.</param>
         public ConnectionString(string server, int port, string database, string uid, string pwd)
         {
-            this.Server = server;
-            this.Port = port;
-            this.Database = database;
-            this.Uid = uid;
-            this.Pwd = pwd;
+            this.ConnectionData = new ConnectionData(server, port, database, uid, pwd);
+            this.Generate();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionString" /> class. 
+        /// </summary>
+        /// <param name="data">ConnectionData object.</param>
+        public ConnectionString(ConnectionData data)
+        {
+            this.ConnectionData = data;
             this.Generate();
         }
 
@@ -66,29 +72,9 @@ namespace SDatabase.MySQL
         }
 
         /// <summary>
-        /// Gets the server's address.
+        /// Gets the ConnectionData object.
         /// </summary>
-        public string Server { get; private set; }
-
-        /// <summary>
-        /// Gets the server's port (usually 3306).
-        /// </summary>
-        public int Port { get; private set; }
-
-        /// <summary>
-        /// Gets the name of the target schema.
-        /// </summary>
-        public string Database { get; private set; }
-
-        /// <summary>
-        /// Gets the username.
-        /// </summary>
-        public string Uid { get; private set; }
-
-        /// <summary>
-        /// Gets the password.
-        /// </summary>
-        public string Pwd { get; private set; }
+        public ConnectionData ConnectionData { get; private set; }
 
         /// <summary>
         /// Gets the connection string.
@@ -100,35 +86,13 @@ namespace SDatabase.MySQL
         /// </summary>
         private void Generate()
         {
-            // User error checks:
-            if (string.IsNullOrWhiteSpace(this.Server) || this.Server == string.Empty)
-            {
-                throw new ArgumentException("Server address required!", "Server");
-            }
-            else if (this.Port <= 0 || this.Port > 65535)
-            {
-                throw new ArgumentException("Valid port required!", "Port");
-            }
-            else if (string.IsNullOrWhiteSpace(this.Database) || this.Database == string.Empty)
-            {
-                throw new ArgumentException("Database name required!", "Database");
-            }
-            else if (string.IsNullOrWhiteSpace(this.Uid) || this.Uid == string.Empty)
-            {
-                throw new ArgumentException("Username required!", "Uid");
-            }
-            else if (string.IsNullOrWhiteSpace(this.Pwd) || this.Pwd == string.Empty)
-            {
-                throw new ArgumentException("Password required!", "Pwd");
-            }
-
             // Connection string generation:
             string connectionString = string.Empty;
-            connectionString += "Server=" + this.Server + "; ";
-            connectionString += "Port=" + this.Port.ToString() + "; ";
-            connectionString += "Database=" + this.Database + "; ";
-            connectionString += "Uid=" + this.Uid + "; ";
-            connectionString += "Pwd=" + this.Pwd + ";";
+            connectionString += "Server=" + this.ConnectionData.Server + "; ";
+            connectionString += "Port=" + this.ConnectionData.Port.ToString() + "; ";
+            connectionString += "Database=" + this.ConnectionData.Database + "; ";
+            connectionString += "Uid=" + this.ConnectionData.Uid + "; ";
+            connectionString += "Pwd=" + this.ConnectionData.Pwd + ";";
             this.Text = connectionString;
         }
 
@@ -183,11 +147,11 @@ namespace SDatabase.MySQL
                 int port = System.Convert.ToInt32(connectionData["Port"]);
                 if (port > 0 || port < 65535)
                 {
-                    this.Server = connectionData["Server"];
-                    this.Port = System.Convert.ToInt32(connectionData["Port"]);
-                    this.Database = connectionData["Database"];
-                    this.Uid = connectionData["Uid"];
-                    this.Pwd = connectionData["Pwd"];
+                    string server = connectionData["Server"];
+                    string database = connectionData["Database"];
+                    string uid = connectionData["Uid"];
+                    string pwd = connectionData["Pwd"];
+                    this.ConnectionData = new ConnectionData(server, port, database, uid, pwd);
                 }
                 else
                 {
