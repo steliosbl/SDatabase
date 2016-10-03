@@ -86,6 +86,9 @@ namespace SDatabase.MySQL
                 case "Boolean":
                     return "BOOLEAN";
 
+                case "List":
+                    return "TEXT";
+
                 default:
                     return null;
             }

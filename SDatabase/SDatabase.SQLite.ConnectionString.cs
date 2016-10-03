@@ -24,9 +24,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 #endregion
 
-/// <summary>
-/// Contains classes and methods pertaining to SQLite databases.
-/// </summary>
 namespace SDatabase.SQLite
 {
     using System;

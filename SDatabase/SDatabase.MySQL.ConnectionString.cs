@@ -24,9 +24,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 #endregion
 
-/// <summary>
-/// Contains classes and methods pertaining to MySQL databases.
-/// </summary>
 namespace SDatabase.MySQL
 {
     using System;
