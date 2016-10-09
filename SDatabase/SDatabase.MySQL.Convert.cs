@@ -215,7 +215,7 @@ namespace SDatabase.MySQL
                     }
                 }
 
-                int temp = columns.Keys.ToList().Intersect(parameters.Keys.ToList(), StringComparer.InvariantCultureIgnoreCase).Select(param => parameters[param] == columns[param]).Count();
+                int temp = columns.Keys.ToList().Intersect(parameters.Keys.ToList(), StringComparer.InvariantCultureIgnoreCase).Select(param => parameters.ContainsKey(param) && parameters[param] == columns[param]).Count();
                 if (temp > maxCommon)
                 {
                     maxCommon = temp;
