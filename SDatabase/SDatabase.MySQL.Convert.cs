@@ -214,6 +214,12 @@ namespace SDatabase.MySQL
             var constructors = new List<ConstructorInfo>();
             foreach (var constructor in typeof(T).GetConstructors())
             {
+                // Return immediately if the constructor to be used is explicitly set
+                if (constructor.GetCustomAttribute<Attributes.SDBConstructor>() != null)
+                {
+                    return constructor;
+                }
+
                 var parameters = new Dictionary<string, Type>();
                 foreach (var parameter in constructor.GetParameters())
                 {
