@@ -73,7 +73,11 @@ namespace SDatabase.MySQL
                     var columns = columnNames.Zip(columnTypes, (k, v) => new { Key = k, Value = v })
                      .ToDictionary(x => x.Key, x => x.Value);
 
-                    var constructor = GetIdealConstructor<T>(columns);
+                    var manuallyAssigned = typeof(T).GetProperties().Select(p => p.GetCustomAttribute<Attributes.AssignManually>()).Where(p => p != null).ToArray();
+                    
+                    var autoAssigned = columns.Where(p => !manuallyAssigned.Any(p2 => p2.Name == p.Key)).ToDictionary(x => x.Key, x => x.Value);
+
+                    var constructor = GetIdealConstructor<T>(autoAssigned);
 
                     if (constructor == null)
                     {
@@ -100,7 +104,15 @@ namespace SDatabase.MySQL
                         }
                     }
 
-                    return (T)Activator.CreateInstance(typeof(T), passParams.ToArray());
+                    var result = (T)Activator.CreateInstance(typeof(T), passParams.ToArray());
+
+                    foreach (var property in manuallyAssigned)
+                    {
+                        var prop = typeof(T).GetProperty(property.Name);
+                        prop.SetValue(result, reader[property.Name]);
+                    }
+
+                    return result;
                 }
             }
 

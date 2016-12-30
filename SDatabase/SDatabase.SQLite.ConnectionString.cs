@@ -57,18 +57,27 @@ namespace SDatabase.SQLite
         }
 
         /// <summary>
-        /// Gets database's data source.
+        /// Gets the database's data source.
         /// </summary>
+        /// <value>
+        /// The database's data source.
+        /// </value>
         public string DataSource { get; private set; }
 
         /// <summary>
         /// Gets the version of SQLite being used.
         /// </summary>
+        /// <value>
+        /// The version of SQLite being used.
+        /// </value>
         public int Version { get; private set; }
 
         /// <summary>
         /// Gets the connection string.
         /// </summary>
+        /// <value>
+        /// The connection string.
+        /// </value>
         public string Text { get; private set; }
 
         /// <summary>

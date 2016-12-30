@@ -71,11 +71,17 @@ namespace SDatabase.MySQL
         /// <summary>
         /// Gets the ConnectionData object.
         /// </summary>
+        /// <value>
+        /// The ConnectionData object.
+        /// </value>
         public ConnectionData ConnectionData { get; private set; }
 
         /// <summary>
         /// Gets the connection string.
         /// </summary>
+        /// <value>
+        /// The connection string.
+        /// </value>
         public string Text { get; private set; }
 
         /// <summary>

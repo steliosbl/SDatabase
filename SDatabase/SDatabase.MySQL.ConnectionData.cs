@@ -75,26 +75,41 @@ namespace SDatabase.MySQL
         /// <summary>
         /// Gets the server's address.
         /// </summary>
+        /// <value> 
+        /// The server's address.
+        /// </value>
         public string Server { get; private set; }
 
         /// <summary>
         /// Gets the server's port (usually 3306).
         /// </summary>
+        /// <value>
+        /// The server's port (usually 3306).
+        /// </value>
         public int Port { get; private set; }
 
         /// <summary>
         /// Gets the name of the target schema.
         /// </summary>
+        /// <value>
+        /// The name of the target schema.
+        /// </value>
         public string Database { get; private set; }
 
         /// <summary>
         /// Gets the username.
         /// </summary>
+        /// <value>
+        /// The username.
+        /// </value>
         public string Uid { get; private set; }
 
         /// <summary>
         /// Gets the password.
         /// </summary>
+        /// <value>
+        /// The password.
+        /// </value>
         public string Pwd { get; private set; }
     }
 }
