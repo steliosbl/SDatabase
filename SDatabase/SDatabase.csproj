@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="SDatabase.Attributes.AssignManually.cs" />
     <Compile Include="SDatabase.Attributes.SDBConstructor.cs" />
+    <Compile Include="SDatabase.Common.Convert.cs" />
     <Compile Include="SDatabase.MySQL.ConnectionData.cs" />
     <Compile Include="SDatabase.MySQL.Convert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

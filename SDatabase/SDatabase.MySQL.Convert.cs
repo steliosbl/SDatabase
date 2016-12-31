@@ -77,7 +77,7 @@ namespace SDatabase.MySQL
                     
                     var autoAssigned = columns.Where(p => !manuallyAssigned.Any(p2 => p2.Name == p.Key)).ToDictionary(x => x.Key, x => x.Value);
 
-                    var constructor = GetIdealConstructor<T>(autoAssigned);
+                    var constructor = Common.Convert.GetIdealConstructor<T>(autoAssigned);
 
                     if (constructor == null)
                     {
@@ -200,59 +200,6 @@ namespace SDatabase.MySQL
             cmdstr = cmdstr.Remove(cmdstr.Length - 2);
             cmdstr += ");";
             return cmdstr;
-        }
-
-        /// <summary>
-        /// Finds the ideal constructor to use given a dictionary containing the names and types of a set of columns.
-        /// </summary>
-        /// <typeparam name="T">The type for which to find the constructor.</typeparam>
-        /// <param name="columns">Dictionary containing the names (key) and types (value) of a set of columns.</param>
-        /// <returns>The ideal constructor to use.</returns>
-        public static ConstructorInfo GetIdealConstructor<T>(Dictionary<string, Type> columns)
-        {
-            int maxCommon = 0;
-            var constructors = new List<ConstructorInfo>();
-            foreach (var constructor in typeof(T).GetConstructors())
-            {
-                // Return immediately if the constructor to be used is explicitly set
-                if (constructor.GetCustomAttribute<Attributes.SDBConstructor>() != null)
-                {
-                    return constructor;
-                }
-
-                var parameters = new Dictionary<string, Type>();
-                foreach (var parameter in constructor.GetParameters())
-                {
-                    if (parameter.ParameterType.Name == "List`1")
-                    {
-                        parameters.Add(parameter.Name, typeof(string));
-                    }
-                    else
-                    {
-                        parameters.Add(parameter.Name, parameter.ParameterType);
-                    }
-                }
-
-                int temp = columns.Keys.ToList().Intersect(parameters.Keys.ToList(), StringComparer.InvariantCultureIgnoreCase).Select(param => parameters.ContainsKey(param) && parameters[param] == columns[param]).Count();
-                if (temp > maxCommon)
-                {
-                    maxCommon = temp;
-                    constructors.Add(constructor);
-                }
-            }
-
-            // $constructors is reversed before iteration so that the constructor with the most common params is first instead of last
-            constructors.Reverse();
-
-            foreach (var constructor in constructors)
-            {
-                if (constructor.GetParameters().Count() <= columns.Count())
-                {
-                    return constructor;
-                }
-            }
-
-            return null;
         }
     }
 }
