@@ -41,12 +41,12 @@ namespace SDatabase.MySQL
     public static class Convert
     {
         /// <summary>
-        /// Creates an object of the specified type using the MySQL server's response to the given command.
+        /// Instantiates multiple objects of the specified type using the MySQL server's response to the given query.
         /// </summary>
-        /// <typeparam name="T">The type of object to be created and returned.</typeparam>
+        /// <typeparam name="T">The type of objects to be created and returned.</typeparam>
         /// <param name="cmd">The query used to acquire data.</param>
-        /// <returns>An instance of the specified type with all the data acquired from the server.</returns>
-        public static T DeserializeObject<T>(MySqlCommand cmd)
+        /// <returns>A list of objects of the specified type with all the data acquired from the server.</returns>
+        public static IEnumerable<T> DeserializeObjects<T>(MySqlCommand cmd)
         {
             // User error checks:
             if (string.IsNullOrWhiteSpace(cmd.CommandText) || cmd.CommandText == string.Empty)
@@ -62,6 +62,7 @@ namespace SDatabase.MySQL
                 throw new ArgumentException("Connection must be open!", "Connecton");
             }
 
+            var resultList = new List<T>();
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -112,11 +113,23 @@ namespace SDatabase.MySQL
                         prop.SetValue(result, reader[property.Name]);
                     }
 
-                    return result;
+                    resultList.Add(result);
                 }
             }
 
-            return (T)Activator.CreateInstance(typeof(T));
+            // (T)Activator.CreateInstance(typeof(T))
+            return resultList;
+        }
+
+        /// <summary>
+        /// Instantiates an object of the specified type using the MySQL server's response to the given query.
+        /// </summary>
+        /// <typeparam name="T">The type of object to be created and returned.</typeparam>
+        /// <param name="cmd">The query used to acquire data.</param>
+        /// <returns>An instance of the specified type with all the data acquired from the server.</returns>
+        public static T DeserializeObject<T>(MySqlCommand cmd)
+        {
+            return DeserializeObjects<T>(cmd).First();
         }
 
         /// <summary>
