@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SDatabase</id>
+    <version>1.4</version>
+    <title>SDatabase</title>
+    <authors>stybl</authors>
+    <owners>stybl</owners>
+    <licenseUrl>http://www.gnu.org/licenses/</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+  </metadata>
+</package>
